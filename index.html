@@ -12,7 +12,8 @@
 <body>
     <div id="intro" onclick="startApp()">
         <div id="intro-wrapper">
-            <h1 id="intro-text">Technology Team <div>with Cream and Chrome</div></h1>
+            <h1 id="intro-text">Technology Team <div>with Cream and Chrome</div>
+            </h1>
             <p id="click-message">Click to Start</p>
         </div>
     </div>
@@ -72,6 +73,8 @@
             const intro = document.getElementById('intro');
             const introText = document.getElementById('intro-text');
             const clickMessage = document.getElementById('click-message');
+            // const clickMessage = document.getElementById('click-message');
+
 
             intro.style.background = "blue";
             introText.style.display = 'block';
@@ -90,8 +93,12 @@
                 if (fontIndex < 10) {
                     setTimeout(playFontAnimation, 100);
                 } else {
-                    intro.style.opacity = 0;
-                    startMain();
+                    intro.style.transition = 'opacity 0.5s ease';
+                    intro.style.opacity = '0';
+                    setTimeout(() => {
+                        intro.style.display = 'none';
+                        startMain();
+                    }, 100);
                 }
             }
             playFontAnimation();
