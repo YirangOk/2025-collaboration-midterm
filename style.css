@@ -1,0 +1,162 @@
+* {
+    padding: 0;
+    margin: 0;
+    font-family: "venice-blvd", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+img {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+#main-image {
+    height: 70vh;
+    animation: spin 20s linear infinite;
+    transform-style: preserve-3d;
+    margin-bottom: 20px;
+}
+
+/* 
+@keyframes spin {
+    from {
+        transform: rotateY(0deg);
+    }
+
+    to {
+        transform: rotateY(360deg);
+    }
+} */
+
+#buttons {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    visibility: visible;
+    animation: fadeIn 2s forwards;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+
+#buttons.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+.btn {
+    padding: 10px 15px;
+    border: 1px solid black;
+    background: none;
+    font-size: 16px;
+    border-radius: 10rem;
+    width: max-content;
+    transition: all 0.3s ease;
+    position: absolute;
+    background-color: white;
+    z-index: 1; /* 기본값 */
+}
+
+.btn:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+    background-color: black;
+    color: white;
+    z-index: 2; /* hover하면 +1 */
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: relative;
+}
+
+.content {
+    width: 70vw;
+    height: 70vh;
+    padding: 1rem;
+    border-radius: 1rem;
+    background-color: white;
+    text-align: left;
+    flex-direction: column;
+    align-items: start;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid black;
+    overflow: scroll;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.content.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.content b {
+    font-size: 1.5rem;
+}
+
+#close-button {
+    position: fixed;
+    right: 1rem;
+    top: 1rem;
+    width: 3.5rem;
+    height: 3.5rem;
+    font-size: 1.5rem;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    border: 1px solid black;
+    border-radius: 10rem;
+    padding: 5px 10px;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+#close-button:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+    background-color: black;
+    color: white;
+}
