@@ -10,6 +10,15 @@
 </head>
 
 <body>
+    <div id="intro" onclick="startApp()">
+        <div id="intro-wrapper">
+            <h1 id="intro-text">Technology Team <div>with Cream and Chrome</div></h1>
+            <p id="click-message">Click to Start</p>
+        </div>
+    </div>
+
+    <div id="loading" style="display: none;">Loading...</div>
+
     <div class="container">
         <img id="main-image" src="cover.png" alt="Notebook">
     </div>
@@ -27,47 +36,78 @@
     </div>
 
     <script>
-        const contents = {
-            1: `<b>Traces of Journeys</b><br><div><img src='image_1.png' alt='Image 1'></div><p>Its cover bears faint scratches, and the page edges are tinged with a dark, verdant patina — evidence of journeys already taken.</p>`,
-            2: `<b>Intimacy in Hand</b><br><div><img src='image_2.png' alt='Image 2'></div><p>Small enough to cradle in one hand, yet spacious enough to slip into a pocket, it strikes the perfect balance between intimacy and readiness.</p>`,
-            3: `<b>A Gentle Embrace</b><br><div><img src='image_3.png' alt='Image 3'></div><p>Its elastic strap yields just enough to let me open it with ease, yet, when closed, offers a firm embrace that honours the solitude of my thoughts.</p>`,
-            4: `<b>Unexpected Pen Companion</b><br><div><img src='image_4.png' alt='Image 4'></div><p>Though no pen-holder was ever designed, I've discovered that same strap — stretched within its golden range — welcomes a pen without ever letting it fall.</p>`,
-            5: `<b>Lighter Than an Egg</b><br><div><img src='image_5.png' alt='Image 5'></div><p>Weighing less than a single egg, it asks nothing of my weary hands; even in fatigue, summoning it to life is never a burden.</p>`,
-            6: `<b>Harmony of Wear</b><br><div><img src='image_6.png' alt='Image 6'></div><p>Upon opening, my fingertips trace the weathered edges — not decay, but a harmony born of use.</p>`,
-            7: `<b>A Vessel of Memory</b><br><div><img src='image_7.png' alt='Image 7'></div><p>No stiff resistance like a brand-new journal, only the fluid rhythm of paper meeting paper...</p>`
-        };
+        // 폰트 리스트 (10개)
+        const introFonts = [
+            "venice-blvd, sans-serif",
+            "monospace",
+            "serif",
+            "fantasy",
+            "cursive",
+            "impact",
+            "times new roman",
+            "comic sans ms",
+            "georgia",
+            "courier new"
+        ];
 
-        function showContent(number) {
-            const contentDiv = document.getElementById('content');
-            const buttons = document.getElementById('buttons');
-            contentDiv.innerHTML = `<button id="close-button" onclick="hideContent(event)">X</button>` + contents[
-                number];
-            contentDiv.classList.add('show');
-            buttons.classList.add('hidden');
-        }
+        let fontIndex = 0;
+        let fontTimer;
+        let clicked = false;
 
-        function hideContent(event) {
-            event.stopPropagation();
-            const contentDiv = document.getElementById('content');
-            const buttons = document.getElementById('buttons');
-            contentDiv.classList.remove('show');
-            buttons.classList.remove('hidden');
-        }
+        // 0.2초마다 폰트 바꾸는 함수
+        function changeFont() {
+            const intro = document.getElementById('intro');
+            const introText = document.getElementById('intro-text');
+            introText.style.fontFamily = introFonts[fontIndex % introFonts.length];
+            fontIndex++;
+            fontTimer = setTimeout(changeFont, 300);
+            intro.style.background = "blue";
+        } // 클릭했을 때 실행
+        function startApp() {
+            if (clicked) return;
+            clicked = true;
+            clearTimeout(fontTimer);
+            fontIndex = 0;
 
-        function closeContent(event) {
-            if (event.target.id === 'content') {
-                hideContent(event);
+            const intro = document.getElementById('intro');
+            const introText = document.getElementById('intro-text');
+            const clickMessage = document.getElementById('click-message');
+
+            intro.style.background = "blue";
+            introText.style.display = 'block';
+            clickMessage.style.display = 'none';
+
+            // 마스크 유지
+            introText.style.background = "url('cover.png') center center / cover no-repeat";
+            introText.style.webkitBackgroundClip = "text";
+            introText.style.backgroundClip = "text";
+            introText.style.color = "transparent";
+            introText.style.webkitTextFillColor = "transparent"; // 추가
+
+            function playFontAnimation() {
+                introText.style.fontFamily = introFonts[fontIndex % introFonts.length];
+                fontIndex++;
+                if (fontIndex < 10) {
+                    setTimeout(playFontAnimation, 100);
+                } else {
+                    intro.style.opacity = 0;
+                    startMain();
+                }
             }
+            playFontAnimation();
         }
 
-        // 버튼 hover하면 z-index를 올려주는 기능
-        window.onload = function () {
-            const buttons = document.querySelectorAll('.btn');
-            const placed = [];
-            let zIndexCounter = 2; // 기본 1 위에서 시작
 
-            buttons.forEach(button => {
-                // 랜덤 배치
+        // 본화면 세팅
+        function startMain() {
+            const buttons = document.getElementById('buttons');
+            buttons.classList.add('show');
+
+            const btns = document.querySelectorAll('.btn');
+            const placed = [];
+            let zIndexCounter = 2;
+
+            btns.forEach(button => {
                 let x, y;
                 let tries = 0;
                 let overlaps;
@@ -101,11 +141,51 @@
                 });
                 button.style.transform = `translate(${x}px, ${y}px)`;
 
-                // Hover 이벤트 추가
                 button.addEventListener('mouseenter', () => {
                     button.style.zIndex = zIndexCounter++;
                 });
             });
+        }
+
+        // 버튼 클릭해서 콘텐츠 열기
+        function showContent(number) {
+            const contentDiv = document.getElementById('content');
+            const buttons = document.getElementById('buttons');
+            const contents = {
+                1: `<b>Traces of Journeys</b><br><div><img src='image_1.png' alt='Image 1'></div><p>Its cover bears faint scratches, and the page edges are tinged with a dark, verdant patina — evidence of journeys already taken.</p>`,
+                2: `<b>Intimacy in Hand</b><br><div><img src='image_2.png' alt='Image 2'></div><p>Small enough to cradle in one hand, yet spacious enough to slip into a pocket, it strikes the perfect balance between intimacy and readiness.</p>`,
+                3: `<b>A Gentle Embrace</b><br><div><img src='image_3.png' alt='Image 3'></div><p>Its elastic strap yields just enough to let me open it with ease, yet, when closed, offers a firm embrace that honours the solitude of my thoughts.</p>`,
+                4: `<b>Unexpected Pen Companion</b><br><div><img src='image_4.png' alt='Image 4'></div><p>Though no pen-holder was ever designed, I've discovered that same strap — stretched within its golden range — welcomes a pen without ever letting it fall.</p>`,
+                5: `<b>Lighter Than an Egg</b><br><div><img src='image_5.png' alt='Image 5'></div><p>Weighing less than a single egg, it asks nothing of my weary hands; even in fatigue, summoning it to life is never a burden.</p>`,
+                6: `<b>Harmony of Wear</b><br><div><img src='image_6.png' alt='Image 6'></div><p>Upon opening, my fingertips trace the weathered edges — not decay, but a harmony born of use.</p>`,
+                7: `<b>A Vessel of Memory</b><br><div><img src='image_7.png' alt='Image 7'></div><p>No stiff resistance like a brand-new journal, only the fluid rhythm of paper meeting paper...</p>`
+            };
+
+            contentDiv.innerHTML = `<button id="close-button" onclick="hideContent(event)">X</button>` + contents[
+                number];
+            contentDiv.classList.add('show');
+            buttons.classList.add('hidden');
+        }
+
+        // 콘텐츠 닫기
+        function hideContent(event) {
+            event.stopPropagation();
+            const contentDiv = document.getElementById('content');
+            const buttons = document.getElementById('buttons');
+            contentDiv.classList.remove('show');
+            buttons.classList.remove('hidden');
+        }
+
+        // 콘텐츠 바깥 클릭 시 닫기
+        function closeContent(event) {
+            if (event.target.id === 'content') {
+                hideContent(event);
+            }
+        }
+
+        // 페이지 처음 열렸을 때
+        window.onload = function () {
+            changeFont(); // 처음에 0.2초마다 폰트 바꿔줌
         };
     </script>
 
