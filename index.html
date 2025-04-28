@@ -12,30 +12,43 @@
 <body>
     <div id="intro" onclick="startApp()">
         <div id="intro-wrapper">
-            <h1 id="intro-text">Technology Team <div>with Cream and Chrome</div>
+            <h1 id="intro-text">Technology Team <div>with Cream on Chrome</div>
             </h1>
             <p id="click-message">Click to Start</p>
         </div>
     </div>
 
     <div id="loading" style="display: none;">Loading...</div>
-
+    <h1 class="title">Endangered objects: <br>notebook</h1>
+    <h6 class="name">Kosara Keskinova, Yirang Ok, Cong Wang (Will), Emma Itria</h6>
     <div class="container">
-        <img id="main-image" src="cover.png" alt="Notebook">
+        <img id="main-image" class="main-image" src="cover.png" alt="Notebook" onclick="showCoverInfo(event)">
+        <div class="messages"></div>
     </div>
     <div id="buttons">
-        <button class="btn" onclick="showContent(1)">1 Traces of Journeys</button>
-        <button class="btn" onclick="showContent(2)">2 Intimacy in Hand</button>
-        <button class="btn" onclick="showContent(3)">3 A Gentle Embrace</button>
-        <button class="btn" onclick="showContent(4)">4 Unexpected Pen Companion</button>
-        <button class="btn" onclick="showContent(5)">5 Lighter Than an Egg</button>
-        <button class="btn" onclick="showContent(6)">6 Harmony of Wear</button>
-        <button class="btn" onclick="showContent(7)">7 A Vessel of Memory</button>
+        <button class="btn" onclick="showContent(1)">1. <span>Traces of Journeys</span></button>
+        <button class="btn" onclick="showContent(2)">2. <span>Intimacy in Hand</span></button>
+        <button class="btn" onclick="showContent(3)">3. <span>A Gentle Embrace</span></button>
+        <button class="btn" onclick="showContent(4)">4. <span>Unexpected Pen Companion</span></button>
+        <button class="btn" onclick="showContent(5)">5. <span>Lighter Than an Egg</span></button>
+        <button class="btn" onclick="showContent(6)">6. <span>Harmony of Wear</span></button>
+        <button class="btn" onclick="showContent(7)">7. <span>A Vessel of Memory</span></button>
     </div>
     <div id="content" class="content" onclick="closeContent(event)">
         <button id="close-button" onclick="hideContent(event)">X</button>
     </div>
 
+    <div id="overlay" onclick="hideCoverInfo()"></div>
+    <div id="cover-info">
+        <p>Talens Art Creation Schetsboek</p>
+        <p><b>Size:</b> 9x13 cm</p>
+        <p><b>Color:</b> Black cover & White pages</p>
+        <p><b>Introduction:</b> This fine and accessible black sketchbook from Talens Art Creation has a size of 9x13 cm
+            and is suitable for various media including ink, pen, pencil, chalk, markers, acrylic, and watercolor. It is
+            quite popular among artists because of the good price-quality ratio. Ideal to use as a dummy sketchbook to
+            try out a few things without using high-quality watercolor paper.</p>
+    </div>
+    
     <script>
         // 폰트 리스트 (10개)
         const introFonts = [
@@ -86,6 +99,7 @@
             introText.style.backgroundClip = "text";
             introText.style.color = "transparent";
             introText.style.webkitTextFillColor = "transparent"; // 추가
+            introText.style.backgroundColor= "white";
 
             function playFontAnimation() {
                 introText.style.fontFamily = introFonts[fontIndex % introFonts.length];
@@ -146,6 +160,7 @@
                     x,
                     y
                 });
+                
                 button.style.transform = `translate(${x}px, ${y}px)`;
 
                 button.addEventListener('mouseenter', () => {
@@ -159,13 +174,13 @@
             const contentDiv = document.getElementById('content');
             const buttons = document.getElementById('buttons');
             const contents = {
-                1: `<b>Traces of Journeys</b><br><div><img src='image_1.png' alt='Image 1'></div><p>Its cover bears faint scratches, and the page edges are tinged with a dark, verdant patina — evidence of journeys already taken.</p>`,
-                2: `<b>Intimacy in Hand</b><br><div><img src='image_2.png' alt='Image 2'></div><p>Small enough to cradle in one hand, yet spacious enough to slip into a pocket, it strikes the perfect balance between intimacy and readiness.</p>`,
-                3: `<b>A Gentle Embrace</b><br><div><img src='image_3.png' alt='Image 3'></div><p>Its elastic strap yields just enough to let me open it with ease, yet, when closed, offers a firm embrace that honours the solitude of my thoughts.</p>`,
-                4: `<b>Unexpected Pen Companion</b><br><div><img src='image_4.png' alt='Image 4'></div><p>Though no pen-holder was ever designed, I've discovered that same strap — stretched within its golden range — welcomes a pen without ever letting it fall.</p>`,
-                5: `<b>Lighter Than an Egg</b><br><div><img src='image_5.png' alt='Image 5'></div><p>Weighing less than a single egg, it asks nothing of my weary hands; even in fatigue, summoning it to life is never a burden.</p>`,
-                6: `<b>Harmony of Wear</b><br><div><img src='image_6.png' alt='Image 6'></div><p>Upon opening, my fingertips trace the weathered edges — not decay, but a harmony born of use.</p>`,
-                7: `<b>A Vessel of Memory</b><br><div><img src='image_7.png' alt='Image 7'></div><p>No stiff resistance like a brand-new journal, only the fluid rhythm of paper meeting paper...</p>`
+                1: `<b>Traces of Journeys</b><br><div class="content-image"><img src='image_1.gif' alt='Image 1'></div><p>Its cover bears faint scratches, and the page edges are tinged with a dark, verdant patina — evidence of journeys already taken.</p>`,
+                2: `<b>Intimacy in Hand</b><br><div class="content-image"><img src='image_2.gif' alt='Image 2'></div><p>Small enough to cradle in one hand, yet spacious enough to slip into a pocket, it strikes the perfect balance between intimacy and readiness.</p>`,
+                3: `<b>A Gentle Embrace</b><br><div class="content-image"><img src='image_3.gif' alt='Image 3'></div><p>Its elastic strap yields just enough to let me open it with ease, yet, when closed, offers a firm embrace that honours the solitude of my thoughts.</p>`,
+                4: `<b>Unexpected Pen Companion</b><br><div class="content-image"><img src='image_4.gif' alt='Image 4'></div><p>Though no pen-holder was ever designed, I've discovered that same strap — stretched within its golden range — welcomes a pen without ever letting it fall.</p>`,
+                5: `<b>Lighter Than an Egg</b><br><div class="content-image"><img src='image_5.gif' alt='Image 5'></div><p>Weighing less than a single egg, it asks nothing of my weary hands; even in fatigue, summoning it to life is never a burden.</p>`,
+                6: `<b>Harmony of Wear</b><br><div class="content-image"><img src='image_6.gif' alt='Image 6'></div><p>Upon opening, my fingertips trace the weathered edges — not decay, but a harmony born of use.</p>`,
+                7: `<b>A Vessel of Memory</b><br><div class="content-image"><img src='image_7.gif' alt='Image 7'></div><p>No stiff resistance like a brand-new journal, only the fluid rhythm of paper meeting paper...</p>`
             };
 
             contentDiv.innerHTML = `<button id="close-button" onclick="hideContent(event)">X</button>` + contents[
@@ -189,6 +204,19 @@
                 hideContent(event);
             }
         }
+
+
+        function showCoverInfo(event) {
+            event.stopPropagation();
+            document.getElementById('cover-info').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        function hideCoverInfo() {
+            document.getElementById('cover-info').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+
 
         // 페이지 처음 열렸을 때
         window.onload = function () {
